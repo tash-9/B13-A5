@@ -1,15 +1,19 @@
 @import url("https://fonts.googleapis.com/css2?family=geist:wght@100..900&display=swap");
 
-
 .font-text{
   font-family: "Geist", serif;
   font-style: normal;
   font-optical-sizing: auto;
 }
 
+.tab-btn.active{
+  background:#facc15 !important;
+  color:black !important;
+}
+
 body {
   display: flex;
-  flex-direction: column; /* allow content to flow vertically */
+  flex-direction: column;
   min-height: 100vh;
   padding: 10px;
 }
