@@ -82,13 +82,25 @@
 
     <!-- Tabs -->
     <div class="flex flex-wrap gap-2 mb-4">
-      <button onclick="filterIssues('all')" data-tab="tab-btn active">All</button>
-      <button onclick="filterIssues('open')" data-tab="tab-btn">Open</button>
-      <button onclick="filterIssues('closed')" data-tab="tab-btn">Closed</button>
-    </div>
 
-    <!-- Issue Cards Container -->
-    <div id="issue-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+<button onclick="filterIssues('all')" 
+class="tab-btn btn bg-brand-purple text-white hover:bg-yellow-400 hover:text-black px-6 py-3 text-sm font-bold active">
+All
+</button>
+
+<button onclick="filterIssues('open')" 
+class="tab-btn btn bg-brand-purple text-white hover:bg-yellow-400 hover:text-black px-6 py-3 text-sm font-bold">
+Open
+</button>
+
+<button onclick="filterIssues('closed')" 
+class="tab-btn btn bg-brand-purple text-white hover:bg-yellow-400 hover:text-black px-6 py-3 text-sm font-bold">
+Closed
+</button>
+
+</div>
+<!-- Issue Cards Container -->
+ <div id="issue-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
   </div>
 
 
