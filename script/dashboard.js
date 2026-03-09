@@ -1,11 +1,9 @@
-// dashboard.js
-
 const API_URL = "https://phi-lab-server.vercel.app/api/v1/lab/issues";
 const SEARCH_URL = "https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=";
 
 let allIssues = [];
 
-// ----------------- FETCH ISSUES -----------------
+//FETCH ISSUES
 async function loadIssues() {
   const container = document.getElementById("issue-container");
   if (!container) return;
@@ -33,7 +31,7 @@ async function loadIssues() {
   }
 }
 
-// ----------------- RENDER ISSUES -----------------
+//RENDER ISSUES
 function renderIssues(issues) {
   const container = document.getElementById("issue-container");
   if (!container) return;
@@ -48,34 +46,36 @@ function renderIssues(issues) {
     // store status for filtering
     card.dataset.status = issue.status?.toLowerCase() || "unknown";
 
-    card.innerHTML = `
-      <div>
-        <div class="flex justify-between items-center mb-4">
-          <span class="text-[10px] font-black uppercase px-2 py-1 rounded bg-gray-100 text-gray-500 tracking-tighter">
-            ${issue.priority || "Normal"}
-          </span>
-          <div class="flex items-center gap-1.5">
-            <span class="w-2 h-2 rounded-full ${isClosed ? "bg-closed-purple" : "bg-open-green"}"></span>
-            <span class="text-[10px] font-bold text-gray-400 uppercase">${issue.status || "Unknown"}</span>
-          </div>
-        </div>
-        <h3 class="font-bold text-gray-800 text-lg leading-tight mb-2">${issue.title}</h3>
-        <p class="text-sm text-gray-400 line-clamp-3 mb-6">${issue.description}</p>
-      </div>
-      <div class="flex justify-between items-center">
-        <div class="flex items-center gap-2">
-          <div class="w-6 h-6 rounded-full bg-brand-purple/10 flex items-center justify-center text-[10px] font-bold text-brand-purple">
-            ${issue.author ? issue.author.charAt(0).toUpperCase() : "U"}
-          </div>
-          <span class="text-xs text-gray-700 font-bold">
-            @${issue.author ? issue.author.split(" ")[0].toLowerCase() : "user"}
-          </span>
-        </div>
-        <span class="text-[10px] text-gray-300 font-bold">
-          ${new Date(issue.createdAt).toLocaleDateString()}
-        </span>
-      </div>
-    `;
+   card.innerHTML = `
+  <div>
+    <div class="flex justify-between items-center mb-4">
+
+  <span class="text-[10px] font-black uppercase px-2 py-1 rounded bg-gray-100 text-gray-500 tracking-tighter">
+    ${issue.priority || "Normal"}
+  </span>
+
+  <div class="flex items-center gap-2">
+  <img 
+    src="assets/${isClosed ? "Closed- Status .png" : "Open-Status.png"}"
+    alt="${issue.status}"
+    class="h-5 w-auto"
+  >
+  <span class="text-[10px] font-bold text-gray-400 uppercase">
+    ${issue.status || "Unknown"}
+  </span>
+</div>
+
+</div>
+
+  <h3 class="font-bold text-gray-800 text-lg leading-tight mb-2">
+    ${issue.title}
+  </h3>
+
+  <p class="text-sm text-gray-400 line-clamp-3 mb-6">
+    ${issue.description}
+  </p>
+</div>
+`;
     container.appendChild(card);
   });
 }
@@ -120,7 +120,21 @@ async function handleSearch() {
 
 
 document.addEventListener("DOMContentLoaded", () => {
-  loadIssues();
+
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+  const loginSection = document.getElementById("login-section");
+  const dashboardSection = document.getElementById("dashboard-section");
+
+  if (isLoggedIn) {
+    loginSection.classList.add("hidden");
+    dashboardSection.classList.remove("hidden");
+
+    loadIssues();
+  } else {
+    loginSection.classList.remove("hidden");
+    dashboardSection.classList.add("hidden");
+  }
 
   const searchBtn = document.getElementById("search-btn");
   if (searchBtn) searchBtn.addEventListener("click", handleSearch);
@@ -131,4 +145,5 @@ document.addEventListener("DOMContentLoaded", () => {
       if (e.key === "Enter") handleSearch();
     });
   }
+
 });
