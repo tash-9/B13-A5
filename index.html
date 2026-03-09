@@ -39,7 +39,7 @@
 </head>
 <body>
 
-  <!-- ===== LOGIN SECTION ===== -->
+  <!-- LOGIN SECTION  -->
   <div id="login-section" class="bg-white px-8 py-6 rounded-2xl shadow-xl shadow-gray-200/50 w-full max-w-[440px] border border-gray-100 flex flex-col">
     <div class="flex flex-col items-center mb-4">
       <h1 class="text-xl font-bold text-gray-800 mt-2 tracking-tight">GitHub Issues Tracker</h1>
@@ -67,7 +67,7 @@
     </div>
   </div>
 
-  <!-- ===== DASHBOARD SECTION ===== -->
+  <!-- hidden DASHBOARD SECTION -->
   <div id="dashboard-section" class="hidden w-full max-w-[1440px] p-4 md:p-6 bg-gray-50 min-h-screen">
 
     <!-- Navbar / Search -->
@@ -76,15 +76,15 @@
       <div class="flex gap-2 w-full md:w-auto">
         <input id="search-input" type="text" placeholder="Search issues..."
                class="input input-bordered w-full sm:w-[280px] rounded-lg text-sm focus:border-brand-purple"/>
-        <button id="search-btn" class="btn bg-brand-purple text-white border-none hover:opacity-90">Search</button>
+        <button id="search-btn" class="btn bg-brand-purple text-white border-none hover:opacity-90 px-6 py-3 text-sm font-bold"> Search </button>
       </div>
     </div>
 
     <!-- Tabs -->
     <div class="flex flex-wrap gap-2 mb-4">
-      <button id="tab-all" onclick="filterIssues('all')" class="tab-btn active">All</button>
-      <button id="tab-open" onclick="filterIssues('open')" class="tab-btn">Open</button>
-      <button id="tab-closed" onclick="filterIssues('closed')" class="tab-btn">Closed</button>
+      <button onclick="filterIssues('all')" data-tab="tab-btn active">All</button>
+      <button onclick="filterIssues('open')" data-tab="tab-btn">Open</button>
+      <button onclick="filterIssues('closed')" data-tab="tab-btn">Closed</button>
     </div>
 
     <!-- Issue Cards Container -->
@@ -97,5 +97,4 @@
   <script src="script/login.js"></script>
   <script src="script/dashboard.js"></script>
 </body>
-
 </html>
