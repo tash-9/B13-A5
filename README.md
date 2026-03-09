@@ -20,5 +20,5 @@ Ans: Arrow Function is const add = (a, b) => a + b;
 It has short syntax, makes code cleaner
 
 5️⃣ What are template literals?
-Ans: Template literals are strings enclosed in backticks (` `) that allow variable interpolation and multi-line strings.
+Ans: Template literals are strings enclosed in backticks that allow variable interpolation and multi-line strings.
 
