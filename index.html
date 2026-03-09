@@ -82,9 +82,9 @@
 
     <!-- Tabs -->
     <div class="flex flex-wrap gap-2 mb-4">
-      <button onclick="filterIssues('all')" class="tab-btn active">All</button>
-      <button onclick="filterIssues('open')" class="tab-btn">Open</button>
-      <button onclick="filterIssues('closed')" class="tab-btn">Closed</button>
+      <button id="tab-all" onclick="filterIssues('all')" class="tab-btn active">All</button>
+      <button id="tab-open" onclick="filterIssues('open')" class="tab-btn">Open</button>
+      <button id="tab-closed" onclick="filterIssues('closed')" class="tab-btn">Closed</button>
     </div>
 
     <!-- Issue Cards Container -->
@@ -97,4 +97,5 @@
   <script src="script/login.js"></script>
   <script src="script/dashboard.js"></script>
 </body>
+
 </html>
