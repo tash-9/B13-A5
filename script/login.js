@@ -1,9 +1,13 @@
 let allIssues = [];
 
-// Fetch all issues from API
+const BASE_URL = "https://phi-lab-server.vercel.app/api/v1/lab/issues";
+
+// Fetch all issues
 async function getIssues() {
   try {
-    const res = await fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues");
+    const res = await fetch(BASE_URL);
+    if (!res.ok) throw new Error("Network response failed");
+
     const data = await res.json();
     return data.data || [];
   } catch (error) {
@@ -12,10 +16,12 @@ async function getIssues() {
   }
 }
 
-// Search issues from API
+// Search issues
 async function searchIssues(query) {
   try {
-    const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${query}`);
+    const res = await fetch(`${BASE_URL}/search?q=${encodeURIComponent(query)}`);
+    if (!res.ok) throw new Error("Search request failed");
+
     const data = await res.json();
     return data.data || [];
   } catch (error) {
@@ -24,27 +30,18 @@ async function searchIssues(query) {
   }
 }
 
-// Load and render issues
+// Load issues
 async function loadIssues() {
   const container = document.getElementById("issue-container");
   if (!container) return;
 
-  container.innerHTML = `
-    <div class="col-span-full flex flex-col items-center justify-center py-24 gap-6 text-center">
-      <span class="loading loading-spinner w-16 h-16 text-brand-purple"></span>
-      <p class="text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 animate-pulse">Connecting to Lab Server...</p>
-    </div>
-  `;
+  container.innerHTML = `<p>Loading issues...</p>`;
 
-  try {
-    allIssues = await getIssues();
-    renderIssues(allIssues);
-  } catch (error) {
-    container.innerHTML = `<div class="col-span-full text-center py-20 text-red-500 font-bold">Failed to load issues</div>`;
-  }
+  allIssues = await getIssues();
+  renderIssues(allIssues);
 }
 
-// Render issues in dashboard
+// Render issues
 function renderIssues(issues) {
   const container = document.getElementById("issue-container");
   if (!container) return;
@@ -52,61 +49,37 @@ function renderIssues(issues) {
   container.innerHTML = "";
 
   issues.forEach(issue => {
-    const isClosed = issue.status?.toLowerCase() === "closed";
-    const borderColor = isClosed ? "border-closed-purple" : "border-open-green";
-
     const card = document.createElement("div");
-    card.className = `bg-white rounded-xl shadow-sm border-t-4 ${borderColor} p-6 flex flex-col justify-between hover:shadow-lg transition-all transform hover:-translate-y-1 cursor-pointer`;
 
     card.innerHTML = `
-      <div>
-        <div class="flex justify-between items-center mb-4">
-          <span class="text-[10px] font-black uppercase px-2 py-1 rounded bg-gray-100 text-gray-500 tracking-tighter">${issue.priority || "Normal"}</span>
-          <div class="flex items-center gap-1.5">
-            <span class="w-2 h-2 rounded-full ${isClosed ? "bg-closed-purple" : "bg-open-green"}"></span>
-            <span class="text-[10px] font-bold text-gray-400 uppercase">${issue.status || "Unknown"}</span>
-          </div>
-        </div>
-        <h3 class="font-bold text-gray-800 text-lg leading-tight mb-2">${issue.title}</h3>
-        <p class="text-sm text-gray-400 line-clamp-3 mb-6">${issue.description}</p>
-      </div>
-      <div class="flex justify-between items-center">
-        <div class="flex items-center gap-2">
-          <div class="w-6 h-6 rounded-full bg-brand-purple/10 flex items-center justify-center text-[10px] font-bold text-brand-purple">
-            ${issue.author ? issue.author.charAt(0).toUpperCase() : "U"}
-          </div>
-          <span class="text-xs text-gray-700 font-bold">@${issue.author ? issue.author.split(" ")[0].toLowerCase() : "user"}</span>
-        </div>
-        <span class="text-[10px] text-gray-300 font-bold">${new Date(issue.createdAt).toLocaleDateString()}</span>
-      </div>
+      <h3>${issue.title}</h3>
+      <p>${issue.description}</p>
     `;
 
     container.appendChild(card);
   });
 }
 
-// Search functionality
+// Run when page loads
 document.addEventListener("DOMContentLoaded", () => {
+
+  loadIssues();
+
   const searchBtn = document.getElementById("search-btn");
-  if (!searchBtn) return;
+  const searchInput = document.getElementById("search-input");
 
   searchBtn.addEventListener("click", async () => {
-    const query = document.getElementById("search-input").value.trim();
+
+    const query = searchInput.value.trim();
 
     if (!query) {
       renderIssues(allIssues);
       return;
     }
 
-    try {
-      const results = await searchIssues(query);
-      renderIssues(results);
-    } catch (e) {
-      console.error("Search failed:", e);
-      const container = document.getElementById("issue-container");
-      if (container) {
-        container.innerHTML = `<div class="col-span-full text-center py-20 text-red-500 font-bold">Search failed</div>`;
-      }
-    }
+    const results = await searchIssues(query);
+    renderIssues(results);
+
   });
+
 });
