@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 document.getElementById("login-btn").addEventListener("click", () => {
 
   const username = document.getElementById("username").value.trim();
@@ -17,3 +18,24 @@ document.getElementById("login-btn").addEventListener("click", () => {
   }
 
 });
+=======
+document.getElementById("login-btn").addEventListener("click", () => {
+
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
+
+  if (username === "admin" && password === "admin123") {
+
+    localStorage.setItem("isLoggedIn", "true");
+
+    document.getElementById("login-section").classList.add("hidden");
+    document.getElementById("dashboard-section").classList.remove("hidden");
+
+    loadIssues();
+
+  } else {
+    alert("Invalid username or password");
+  }
+
+});
+>>>>>>> 028da5444d0170c220aeaf81170f8173ea9bc80a
