@@ -1,19 +1,19 @@
-document.getElementById("login-btn").addEventListener("click", () => {
+const loginBtn = document.getElementById("login-btn");
 
-  const username = document.getElementById("username").value.trim();
-  const password = document.getElementById("password").value.trim();
+if (loginBtn) {
+  loginBtn.addEventListener("click", () => {
 
-  if (username === "admin" && password === "admin123") {
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
 
-    localStorage.setItem("isLoggedIn", "true");
+    if (username === "admin" && password === "admin123") {
 
-    document.getElementById("login-section").classList.add("hidden");
-    document.getElementById("dashboard-section").classList.remove("hidden");
+      localStorage.setItem("isLoggedIn", "true");
 
-    loadIssues();
+      location.reload();
+    } else {
+      alert("Invalid username or password");
+    }
 
-  } else {
-    alert("Invalid username or password");
-  }
-
-});
+  });
+}
